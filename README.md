@@ -10,7 +10,7 @@ flowchart TD
     end
 
     Sources[Open Data Sources]
-    Processes[Transformation Pipelines]
+    Processes[Transformation Processes]
     Artifacts[Systems-Ready Data]
     
     subgraph CoreInfra [Data for Canada Infrastructure]
