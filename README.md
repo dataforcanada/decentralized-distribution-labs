@@ -19,7 +19,7 @@ flowchart TD
     end
     
     Distribution[Decentralized Distribution]
-    Torrent[BitTorrent Swarm]
+    Torrent["P2P Technology"]
     
     subgraph Consumers [Consumption]
         Users[Data People & Developers]
@@ -56,7 +56,7 @@ flowchart TD
     mirrors a13@--> Systems
     a13@{animate: true, animation: slow}
     
-    mirrors a9@-.->|Seeding| Torrent
+    mirrors a9@-.->|Pooled| Torrent
     a9@{animate: true, animation: fast}
 
     %% Torrent Connections
@@ -67,13 +67,16 @@ flowchart TD
     a11@{animate: true, animation: fast}
 
     %% Click Actions
-    click Artifacts "https://www.dataforcanada.org/docs/processes/" _blank
+    click Sources "https://www.dataforcanada.org/#high-level-overview" _blank
+    click Processes "https://www.dataforcanada.org/docs/processes/" _blank
+    click Artifacts "https://www.dataforcanada.org/docs/getting_started/" _blank
     click Metadata "https://stac-utils.github.io/stac-geoparquet/latest/spec/stac-geoparquet-spec/" _blank
     click Zenodo "https://zenodo.org/communities/dataforcanada/" _blank
     click SourceCoop "https://source.coop/dataforcanada/" _blank
+    click InternetArchive "https://archive.org/details/@diegoripley/uploads/" _blank
 
     %% APPLY STYLES TO LINKED NODES
-    class Artifacts,Metadata,Zenodo,SourceCoop linkNode
+    class Sources,Processes,Artifacts,Metadata,SourceCoop,Zenodo,InternetArchive linkNode
 ```
 
 ## 🏗️ Open Processing Architecture
@@ -98,23 +101,25 @@ Once data products reach a production-ready state, they enter a dissemination fl
 * **Cloud-Native First:** Priority is given to performant, system-to-system file formats (e.g., Parquet) to enable high-throughput applications without the need for local parsing.
 * **Persistent Identification:** Every dataset version is assigned a DOI for citation and immutability.
 * **The FAIR Data Catalog:** Global metadata is aggregated into a single, queryable **[FAIR Data Catalog](https://stac-utils.github.io/stac-geoparquet/latest/spec/stac-geoparquet-spec/)**. This catalog acts as the "brain" of the system, tracking all versions and DOIs, and directing users to the optimal source within our multi-tier storage network:
-* **[Source Cooperative](https://source.coop/dataforcanada)** serves as our **primary mirror** for all datasets, including large-scale products like orthoimagery.
-* **[Zenodo](https://zenodo.org/communities/dataforcanada/)** serves as our repository for **long-term academic preservation** and provides a high-speed mirror for European users.
-* **[The Internet Archive](https://archive.org)** is utilized **strategically** for specific datasets to ensure historical redundancy.
+    - **[Source Cooperative](https://source.coop/dataforcanada)** serves as our **primary mirror** for all datasets, including large-scale products like orthoimagery.
+    - **[Zenodo](https://zenodo.org/communities/dataforcanada/)** serves as our repository for **long-term academic preservation** and provides a high-speed mirror for European users.
+    - **[The Internet Archive](https://archive.org)** is utilized **strategically** for specific datasets to ensure historical redundancy.
+    - **[Data for Canada Infrastructure](https://www.dataforcanada.org/infrastructure/)** is utilized **strategically** for specific datasets of high-value.
 
-### Decentralized Distribution (BitTorrent)
+### Decentralized Distribution
 
-We are piloting BitTorrent to maximize infrastructure resilience. By leveraging [HTTP Web Seeding (BEP 19)](https://www.bittorrent.org/beps/bep_0019.html), torrents will be seeded simultaneously by Source Cooperative, Zenodo, Data for Canada infrastructure, and community peers. This ensures high availability without a single point of failure. Current laboratory work is available in the [Decentralized Distribution Labs](https://github.com/dataforcanada/decentralized-distribution-labs).
+We are piloting a <abbr title="Peer-to-Peer">P2P</abbr> technology, to maximize infrastructure resilience. By leveraging the [P2P HTTP  consumption feature](https://www.bittorrent.org/beps/bep_0019.html), users will be able to download simultaneously from Source Cooperative, Zenodo, Data for Canada infrastructure, and community peers. This ensures high availability without a single point of failure. Current laboratory work is available in the [Decentralized Distribution Labs](https://github.com/dataforcanada/decentralized-distribution-labs).
 
 ## Work in the Lab: Smart Nodes
 
-To further democratize access and ensure the persistence of Canada’s open data, we are experimenting with the features defined in previous work done by [Academic Torrents](https://academictorrents.com/docs/mirroring.html#smartnodes).
+To further democratize access and ensure the persistence of Canada’s open data, we are experimenting with the features defined in previous work done by other organizations.
 
 A Smart Node functions as a "set-it-and-forget-it" volunteer server, an automated library branch for our data infrastructure.
 
 * **Automated Mirroring:** Unlike a standard download, a Smart Node automatically synchronizes with our central **FAIR Data Catalog**. It intelligently fetches new or "at-risk" datasets to ensure they remain available even if the central portal experiences downtime.
 * **Volunteer-Powered Resilience:** This model allows partner institutions (ex. universities, research labs) and public volunteers to donate bandwidth and storage. By running a Smart Node, contributors actively protect vital Canadian datasets from being lost or gated.
-* **Dynamic Storage Management:** The node software monitors network health to optimize resource usage. Leveraging BitTorrent's capability for **selective piece mapping**, the node does not need to store the entire catalog. Instead, it identifies specific file indices or "rare" pieces within the metadata and sends granular `REQUEST` messages for only those blocks. This allows a node with limited storage (ex. 500GB) to provide critical redundancy for a much larger archive (ex. 50TB) by surgically targeting only the data that is currently under shared.
+
+* **Dynamic Storage Management:** The node software monitors network health to optimize resource usage. Leveraging the  <abbr title="Peer-to-Peer">P2P</abbr> technology's capability for **selective piece mapping**, the node does not need to store the entire catalog. Instead, it identifies specific file indices or "rare" pieces within the metadata and sends granular `REQUEST` messages for only those blocks. This allows a node with limited storage (ex. 500GB) to provide critical redundancy for a much larger archive (ex. 50TB) by surgically targeting only the data that is currently under shared.
 
 We are currently refining the concepts from [smart-node-transmission](https://github.com/academictorrents/smartnode-transmission) to work seamlessly with our catalog, enabling a fully decentralized data mesh for Canadian geospatial information.
 
@@ -123,7 +128,7 @@ graph TD
     %% Node Definitions with custom labels
     Catalog[("FAIR Data Catalog")]
     SmartNode["Volunteer Smart Node<br/>(Limited Storage Optimization)"]
-    BTNetwork(["BitTorrent Peer Network<br/>(Massive Data Pool)"])
+    BTNetwork(["P2P Network<br/>(Massive Data Pool)"])
 
     %% The Process Flow
     Catalog -->|"1. Syncs metadata & identifies 'at-risk' data"| SmartNode
@@ -164,7 +169,7 @@ flowchart TD
     %% ---------------------------------------------------------
     subgraph Canada_Region ["🇨🇦 Physical Location: Canada"]
         direction TB
-        NodeTO["Smart Node
+        NodeTO["Smart Node 01
 Location: Toronto, CA
 Specs: 50Gbps / 50Gbps, 950GB Flash Storage
 Jurisdiction: Canada"]
@@ -196,10 +201,10 @@ Location: San Francisco, USA
 Protocol: HTTP
 Jurisdiction: USA"]
         
-        Netcup["Netcup VPS
+        Netcup["VPS 01
 Location: Manassas, Virginia, USA
-Specs: 2.5Gbps / 2.5Gbps, Flash Storage
-Protocol: HTTP & BitTorrent
+Specs: 2.5Gbps / 2.5Gbps, 512GB Flash Storage
+Protocol: HTTP & P2P
 Jurisdiction: Germany"]
     end
 
@@ -209,7 +214,7 @@ Jurisdiction: Germany"]
     subgraph Europe_Region ["🇪🇺 Physical Location: Europe"]
         direction TB
         subgraph Netherlands ["🇳🇱 Netherlands"]
-            NodeAMS["Smart Node
+            NodeAMS["Smart Node 02
 Location: Amsterdam, NL
 Specs: 50Gbps / 50Gbps, 950GB Flash Storage
 Jurisdiction: Netherlands"]
@@ -217,8 +222,8 @@ Jurisdiction: Netherlands"]
         
         subgraph Switzerland ["🇨🇭 Switzerland"]
             Zenodo["Zenodo
-Location: Geneva
-(Replicated in Budapest)
+Location: Geneva, CH
+(Replicated in Budapest, HU)
 Protocol: HTTP
 Jurisdiction: Switzerland"]
         end
@@ -228,7 +233,7 @@ Jurisdiction: Switzerland"]
     %% CONNECTIONS
     %% ---------------------------------------------------------
     
-    NodeTO <==>|BitTorrent Sync P2P| NodeAMS
+    NodeTO <==>|P2P| NodeAMS
     IA_SF -.->|Internal Replication| IA_Van
     
     NodeTO -.->|HTTP Pull| SourceCoop
@@ -245,9 +250,9 @@ Jurisdiction: Switzerland"]
 | :--- | :--- | :--- | :--- | :--- |
 | **CDN** | [CDN - Cloudflare Details](https://www.cloudflare.com/plans/) - WAF, CDN (Amortized Annual) | $30.90 | $22.60 | €19.13 |
 | **CDN Services** | [Object Storage - Cloudflare Details](https://www.cloudflare.com/products/r2/) & [Serverless - Cloudflare Details](https://www.cloudflare.com/en-ca/plans/developer-platform/) (Variable) | $32.71 | $23.93 | €20.26 |
-| **Smart Node 01** | [Decentralized Distribution - SlashN Services Details](https://ultra.cc/#plan-pricing) - Dedicated BitTorrent client | $28.98 | $21.21 | €17.95 |
-| **Smart Node 02** | [Decentralized Distribution - SlashN Services Details](https://ultra.cc/#plan-pricing) - Dedicated BitTorrent client | $28.98 | $21.21 | €17.95 |
-| **VPS** | [Geospatial Services - Netcup Details](https://www.netcup.com/en/server/root-server) - ARM64 | $14.64 | $10.72 | €9.07 |
+| **Smart Node 01** | [Decentralized Distribution - SlashN Services Details](https://ultra.cc/#plan-pricing) - Dedicated <abbr title="Peer-to-Peer">P2P</abbr> client | $28.98 | $21.21 | €17.95 |
+| **Smart Node 02** | [Decentralized Distribution - SlashN Services Details](https://ultra.cc/#plan-pricing) - Dedicated <abbr title="Peer-to-Peer">P2P</abbr> client | $28.98 | $21.21 | €17.95 |
+| **VPS 01** | [Geospatial Services - Netcup Details](https://www.netcup.com/en/server/root-server) - ARM64 | $14.64 | $10.72 | €9.07 |
 | **TOTAL** | **Monthly Run Rate** | **$136.21** | **$99.67** | **€84.36** |
 
 **Note:** Currency conversions are based on rates from February 16, 2026.
